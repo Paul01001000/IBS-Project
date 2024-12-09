@@ -1,15 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #ffffff;
+    }
+    .container {
+      text-align: center;
+      position: relative;
+      width: 400px;
+    }
+
+    /* Triangle shape */
+    .triangle {
+      width: 0;
+      height: 0;
+      border-left: 400px solid #8b3e3e; /* Dark red color */
+      border-bottom: 150px solid transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    /* Login Form */
+    .login-box {
+      position: relative;
+      padding-top: 180px;
+      z-index: 1;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: black;
+      margin-bottom: 5px;
+    }
+
+    p {
+      color: black;
+      margin-bottom: 20px;
+    }
+
+    .input-box {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #5f7764; /* Greenish color */
+      color: #c0c0c0;
+      font-size: 16px;
+      transition: background-color 0.3s ease; /* Smooth transition */
+    }
+    .input-box::placeholder {
+      color: #c0c0c0;
+    }
+
+    /* Hover and focus effect for input fields */
+    .input-box:hover,
+    .input-box:focus {
+      background-color: #98c4a3; /* Light green color on hover and focus */
+      outline: none; /* Remove default outline on focus */
+    }
+
+    .forgot-password {
+      text-align: right;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #000;
+      font-style: italic;
+    }
+
+    .forgot-password a {
+      color: #000;
+      text-decoration: none;
+    }
+
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background-color: #5f432a; /* Dark brown color */
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Hover effect for login button */
+    .login-btn:hover {
+      background-color: #98c4a3; /* Light green color on hover */
+    }
+
+    .signup {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #000;
+    }
+
+    .signup a {
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+/* Hover effect for signup link */
+.signup a:hover {
+      color: #98c4a3; /* Light green color on hover */
+    }
+
+    /* Home link */
+    .home-link {
+      position: absolute;
+      top: 10px;
+      right: 10px; /* Positioning to the top-right */
+      font-size: 14px;
+      color: #000;
+    }
+
+    .home-link a {
+      color: #000;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    /* Hover effect for home link */
+    .home-link a:hover {
+      color: #98c4a3; /* Light green color on hover */
+    }
+  </style>
+
 </head>
 <body>
-<form method="POST" action="http://localhost:5000/main">
-<p>Name <input type="text" name="name"></p>
-<p>Password <input type="password" name="password"></p>
-<p><input type="submit" value="Login"></p>
-</form>
+  <div class="container">
+    <div class="triangle"></div>
+    <div class="home-link">
+      <a href="#">HOME</a>
+    </div>
+    <div class="login-box">
+      <h2>LOGIN</h2>
+      <p>welcome back sign into your account</p>
+      <form method="POST" action="http://localhost:5000/main">
+      <input type="text" name="name" class="input-box" placeholder="Enter username or email">
+      <input type="password" name="password" class="input-box" placeholder="Enter password">
+      <div class="forgot-password">
+        <a href="#">Forgot Password?</a>
+      </div>
+      <input type="submit" class="login-btn" value="LOGIN">
+      </form>
+      <form method="POST" action="http://localhost:5000/register">
+        <div class="signup">
+          New here? <input type="submit" value="Register">
+        </div>
+      </form>
+      
+    </div>
+  </div>
+  
 </body>
+
 </html>
