@@ -1,6 +1,7 @@
 #database_0
 import pandas as pd
 import os
+import json
 
 from typing import List
 
@@ -46,6 +47,7 @@ class Database():
         else: 
             return False
     
+    @property
     def log_out(self) -> None:
         self.__set_user("")
     
@@ -80,6 +82,11 @@ class Database():
             return True
         else:
             return False
+    
+    @property
+    def get_clients_json(self) -> str:
+        return pd.read_csv(self.CLIENT_FILE).to_json(orient="index")
+
     @property
     def get_all_clients(self) -> pd.DataFrame:
         return pd.read_csv(self.CLIENT_FILE)
