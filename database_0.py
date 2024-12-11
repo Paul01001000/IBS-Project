@@ -86,6 +86,10 @@ class Database():
     @property
     def get_clients_json(self) -> str:
         return pd.read_csv(self.CLIENT_FILE).to_json(orient="index")
+    
+    def get_client_json(self,id: str) -> str:
+        df = pd.read_csv(self.CLIENT_FILE)
+        return df.loc[df["Patienten ID"] == int(id)].to_json(orient="index")
 
     @property
     def get_all_clients(self) -> pd.DataFrame:
