@@ -7,8 +7,14 @@
 </head>
 <body>
     <p>Hallo {{name}}</p>
-    <form method="POST" action="http://localhost:5000/patienten">
+    <form method="GET" action="http://localhost:5000/patienten">
         <p><input type="submit" value="Patienten"></p>
-        </form>
+    </form>
+    <form method="GET" action="http://localhost:5000/termine">
+        <p><input type="submit" value="Termine"></p>
+    </form>
+    <form method="GET" action="http://localhost:5000/login">
+        <p><input type="submit" value="Log Out"></p>
+    </form>
 </body>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="GET" action="http://localhost:5000/patienten">
+        <p><input type="submit" value="Zurück"></p>
+    </form>
+
+    <script>
+        const client_data = {{client|tojson}};
+        const client_json = JSON.parse(client_data);
+        
+        const table = document.createElement('table');
+
+        const tr_head = document.createElement('tr');
+        const tr_data = document.createElement('tr');
+        for (let col in client_json[Object.keys(client_json)[0]]){
+            const th = document.createElement('th');
+            th.textContent = col;
+            tr_head.appendChild(th);
+            const td = document.createElement('td');
+            td.textContent = client_json[Object.keys(client_json)[0]][col];
+            tr_data.appendChild(td);
+        }
+        table.appendChild(tr_head);
+        table.appendChild(tr_data);
+
+        document.body.appendChild(table);
+    </script>
+</body>
+</html>

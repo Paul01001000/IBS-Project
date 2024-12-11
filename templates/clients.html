@@ -6,7 +6,16 @@
     <title>Document</title>
 </head>
 <body>
-    <p id="main"></p>
+    <form method="GET" action="http://localhost:5000/login">
+        <p><input type="submit" value="Log Out"></p>
+    </form>
+    <form method="GET" action="http://localhost:5000/main">
+        <p><input type="submit" value="Zurück"></p>
+    </form>
+    <form method="POST" action="http://localhost:5000/patienten/neu">
+        <p><input type="submit" value="Hinzufügen"></p>
+    </form>
+
     <script>
         const client_data = {{clients|tojson}};
         const client_json = JSON.parse(client_data);
@@ -28,6 +37,7 @@
                 td.textContent = client_json[row][col];
                 tr.appendChild(td);
             }
+            tr.addEventListener('click',() => window.location.href = "http://localhost:5000/patient?id=" + client_json[row]["Patienten ID"])
             table.appendChild(tr);
         } 
         document.body.appendChild(table);
