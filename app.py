@@ -18,6 +18,7 @@ def login():
 def main():
     if not db.get_user:
         redirect("login")
+
     if request.method == "GET":
         return render_template("main.html", 
                                 name = db.get_user)
@@ -54,17 +55,31 @@ def client():
     if not db.get_user:
         return redirect("login")
     res = request.args
-    this_client_data = db.get_client_json(res["id"])
+    db.set_client(int(res["row"]))
+    this_client_data = db.get_client_json
     return render_template("client_setting.html",client=this_client_data)
 
-@app.route("/patienten/neu", methods = ["POST"])
+@app.route("/patienten_neu", methods = ["POST"])
 def new_client():
     if not db.get_user:
         return redirect("login")
     res = request.form
     if not res:
-        return ""
+        return render_template("register_user.html")
+    db.create_new_client(res)
     return redirect("patienten")
+
+@app.route("/patienten_delete")
+def delete_client():
+    db.delete_client()
+    db.set_client(None)
+    return redirect("patienten")
+
+@app.route("/patienten_update",methods = ["POST"])
+def update_client():
+    res = request.form
+    db.update_client(res)
+    return redirect("patient?row=" + str(db.get_client))
 
 
 if __name__ == "__main__":
