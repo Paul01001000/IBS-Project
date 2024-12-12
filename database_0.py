@@ -7,19 +7,21 @@ from typing import List
 
 class Database():
     # File paths
-    ROOT: str = ""
+    ROOT: str = "C:/Users/paul8/Documents/Uni/7. Thesis/Project Seminar/IBS-Project/"
     USER_FILE: str = ROOT + "users.csv"
     CLIENT_FILE: str = ROOT + "client_database.csv"
     THERAPISTS_FILE: str = "therapists.csv"
     APPOINTMENTS_FILE: str = ROOT + "appointments.csv"
 
     USER_HEADERS: List[str] = ["Username", "Password", "Firstname", "Lastname", "Date_of_Birth"]
-    CLIENT_HEADERS: List[str] = ["Patienten ID", "Vor & Nachname", "Telefonnummer", "Handynummer", "Adresse",
+    CLIENT_HEADERS: List[str] = ["Nachname", "Vorname", "Telefonnummer", "Handynummer", "Adresse",
                     "Arzt", "Pfleger", "Versicherung", "Versicherungsnummer",
                     "Geschlecht", "Rezept Details", "Beschwerde"]
     APPOINTMENTS_HEADERS: List[str] = ["therapist","date","time","client_name","type"]
     
     __user: str = "" #current user
+    __client: int = None
+    __appointment: int = None
     __key: str = "SecureKey" 
     __salt: bytes = b'm\xde\x84\xb2\x17\xa7\xeb\x16\xd4\x8a\x15\xad*\xb1Pt' #needed later for cryptpandas
 
@@ -63,33 +65,32 @@ class Database():
     def create_new_client(self,client_data: dict) -> bool:
         df = pd.read_csv(self.CLIENT_FILE)
         df = pd.concat([df, pd.DataFrame([client_data])], ignore_index=True)
+        df.sort_values("Nachname").to_csv(self.CLIENT_FILE, index=False)
+        return True
+    
+    def delete_client(self) -> bool:
+        df = pd.read_csv(self.CLIENT_FILE)
+        if self.__client >= df.shape[0]:
+            return False
+        df.drop(self.__client).to_csv(self.CLIENT_FILE, index=False)
+        return True
+    
+    def update_client(self,updated_data: dict) -> bool:
+        df = pd.read_csv(self.CLIENT_FILE)
+        for col, val in enumerate(updated_data.values()):
+            if val:
+                df.iloc[self.__client,col] = val
         df.to_csv(self.CLIENT_FILE, index=False)
         return True
-    
-    def delete_client(self,client_name: str) -> bool:
-        df = pd.read_csv(self.CLIENT_FILE)
-        if client_name not in df["Vor & Nachname"].values:
-            return False
-        df[df["Vor & Nachname"] != client_name].to_csv(self.CLIENT_FILE, index=False)
-        return True
-    
-    def update_client(self,client_name: str ,updated_data: dict) -> bool:
-        df = pd.read_csv(self.CLIENT_FILE)
-        if all(updated_data.values()):
-            # Update the specific client's data in the DataFrame
-            df.loc[df["Vor & Nachname"] == client_name, :].update(updated_data.values())
-            df.to_csv(self.CLIENT_FILE, index=False)
-            return True
-        else:
-            return False
     
     @property
     def get_clients_json(self) -> str:
         return pd.read_csv(self.CLIENT_FILE).to_json(orient="index")
     
-    def get_client_json(self,id: str) -> str:
+    @property
+    def get_client_json(self) -> str:
         df = pd.read_csv(self.CLIENT_FILE)
-        return df.loc[df["Patienten ID"] == int(id)].to_json(orient="index")
+        return df.iloc[self.__client,:].to_json(orient="index")
 
     @property
     def get_all_clients(self) -> pd.DataFrame:
@@ -109,6 +110,13 @@ class Database():
     @property
     def get_user(self) -> str:
         return self.__user
+    
+    def set_client(self,id: int) -> None:
+        self.__client = id
+    
+    @property
+    def get_client(self) -> int:
+        return self.__client
 
 if "__main__" == __name__:
     db = Database()
