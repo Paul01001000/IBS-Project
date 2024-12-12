@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form method="POST" action="http://localhost:5000/patienten_neu">
+    <p>Nachname <input type="text" name="Nachname"></p>
+    <p>Vorname <input type="text" name="Vorname"></p>
+    <p>Telefonnummer <input type="tel" name="Telefonnummer"></p>
+    <p>Handynummer <input type="tel" name="Handynummer"></p>
+    <p>Arzt <input type="text" name="Arzt"></p>
+    <p>Pfleger <input type="text" name="Pfleger"></p>
+    <p>Versicherung <input type="text" name="Versicherung"></p>
+    <p>Versicherungsnummer <input type="number" name="Versicherungsnummer"></p>
+    <p>Geschlecht <select name="Geschlecht" id="i">
+        <option value="M">Männlich</option>
+        <option value="W">Weiblich</option>
+        <option value="D">Divers</option>
+    </select></p>
+    <p>Rezept <input type="text" name="Rezept"></p>
+    <p>Details <input type="text" name="Details"></p>
+    <p>Beschwerde <input type="text" name="Beschwerde"></p>
+
+
+    <p><input type="submit" value="Patient Hinzufügen"></p>
+    </form>
+</body>
+</html>
