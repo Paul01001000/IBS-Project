@@ -12,7 +12,7 @@
     <form method="GET" action="http://localhost:5000/main">
         <p><input type="submit" value="Zurück"></p>
     </form>
-    <form method="POST" action="http://localhost:5000/patienten/neu">
+    <form method="POST" action="http://localhost:5000/patienten_neu">
         <p><input type="submit" value="Hinzufügen"></p>
     </form>
 
@@ -37,7 +37,7 @@
                 td.textContent = client_json[row][col];
                 tr.appendChild(td);
             }
-            tr.addEventListener('click',() => window.location.href = "http://localhost:5000/patient?id=" + client_json[row]["Patienten ID"])
+            tr.addEventListener('click',() => window.location.href = "http://localhost:5000/patient?row=" + row)
             table.appendChild(tr);
         } 
         document.body.appendChild(table);
