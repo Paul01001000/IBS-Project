@@ -9,7 +9,7 @@
     <form method="GET" action="http://localhost:5000/patienten">
         <p><input type="submit" value="Zurück"></p>
     </form>
-
+    <form method="POST" action="http://localhost:5000/patienten_update" id="inp"></form>
     <script>
         const client_data = {{client|tojson}};
         const client_json = JSON.parse(client_data);
@@ -18,18 +18,36 @@
 
         const tr_head = document.createElement('tr');
         const tr_data = document.createElement('tr');
-        for (let col in client_json[Object.keys(client_json)[0]]){
+        const tr_input = document.createElement('tr');
+        
+        for (let col in client_json){
             const th = document.createElement('th');
             th.textContent = col;
             tr_head.appendChild(th);
             const td = document.createElement('td');
-            td.textContent = client_json[Object.keys(client_json)[0]][col];
+            td.textContent = client_json[col];
             tr_data.appendChild(td);
+            const ti = document.createElement('td');
+            const input = document.createElement('input');
+            input.type = "text";
+            input.name = col;
+            ti.appendChild(input);
+            tr_input.appendChild(ti);
         }
         table.appendChild(tr_head);
         table.appendChild(tr_data);
+        table.appendChild(tr_input);
 
-        document.body.appendChild(table);
+        const form = document.getElementById('inp');
+        form.appendChild(table)
+        const sub = document.createElement('input');
+        sub.type = "submit";
+        sub.value = "Update";
+        form.appendChild(sub);
     </script>
+    <br>
+    <form method="GET" action="http://localhost:5000/patienten_delete">
+        <input type="submit" value="Löschen">
+    </form>
 </body>
 </html>
