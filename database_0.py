@@ -7,7 +7,7 @@ from typing import List
 
 class Database():
     # File paths
-    ROOT: str = "C:/Users/paul8/Documents/Uni/7. Thesis/Project Seminar/IBS-Project/"
+    ROOT: str = "./"
     USER_FILE: str = ROOT + "users.csv"
     CLIENT_FILE: str = ROOT + "client_database.csv"
     THERAPISTS_FILE: str = "therapists.csv"
