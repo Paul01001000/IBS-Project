@@ -34,9 +34,11 @@ def register():
     res = request.form
     if not res:
         return render_template("register.html")
-    user_data = {k:"" for k in db.USER_HEADERS}
-    user_data["Username"] = res["name"]
-    user_data["Password"] = res["password"]
+    if res["Password"] != res["Password_rep"]:
+        return render_template("register.html")
+    if "" in res.values():
+        return render_template("register.html")
+    user_data = {k:res[k] for k in db.USER_HEADERS}
     if db.create_new_user(user_data):
         return redirect("login")
     else:
