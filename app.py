@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect
 
 from database_0 import Database
 
+import webbrowser
+
 db = Database()
 app = Flask(__name__)
 
@@ -16,18 +18,15 @@ def login():
 
 @app.route("/main", methods = ["GET","POST"])
 def main():
-    if not db.get_user:
-        redirect("login")
-
-    if request.method == "GET":
+    if db.get_user:
         return render_template("main.html", 
                                 name = db.get_user)
     res = request.form
-    if db.verify_user(res["name"],res["password"]):
-        return render_template("main.html", 
+    if res:
+        if db.verify_user(res["name"],res["password"]):
+            return render_template("main.html", 
                                 name = res["name"])
-    else:
-        return redirect("login")
+    return redirect("login")
     
 
 @app.route("/register", methods = ["POST"])
@@ -81,6 +80,46 @@ def update_client():
     db.update_client(res)
     return redirect("patient?row=" + str(db.get_client))
 
+@app.route("/termine", methods = ["GET"])
+def appointments():
+    if not db.get_user:
+        return redirect("login")
+    appointment_data = db.get_appointments_json
+    return render_template("appointments.html",appointments=appointment_data)
+    
+@app.route("/termin", methods = ["GET"])
+def appointment():
+    if not db.get_user:
+        return redirect("login")
+    res = request.args
+    db.set_appointment(int(res["row"]))
+    this_appointment_data = db.get_appointment_json
+    return render_template("appointment_setting.html",appointment=this_appointment_data)
+
+@app.route("/termin_neu", methods = ["POST"])
+def new_appointment():
+    if not db.get_user:
+        return redirect("login")
+    res = request.form
+    if not res:
+        return render_template("create_appointment.html")
+    db.create_new_appointment(res)
+    return redirect("termine")
+
+@app.route("/appointment_delete")
+def delete_appointment():
+    db.delete_appointment()
+    db.set_appointment(None)
+    return redirect("termine")
+
+@app.route("/termin_update",methods = ["POST"])
+def update_appointment():
+    res = request.form
+    db.update_appointment(res)
+    return redirect("termin?row=" + str(db.get_appointment))
+
+
 
 if __name__ == "__main__":
+    webbrowser.open("http://127.0.0.1:5000/login")
     app.run()

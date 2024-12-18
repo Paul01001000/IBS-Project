@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="GET" action="http://localhost:5000/login">
+        <p><input type="submit" value="Log Out"></p>
+    </form>
+    <form method="GET" action="http://localhost:5000/main">
+        <p><input type="submit" value="Zurück"></p>
+    </form>
+    <form method="POST" action="http://localhost:5000/termin_neu">
+        <p><input type="submit" value="Hinzufügen"></p>
+    </form>
+
+    <script>
+        const client_data = {{appointments|tojson}};
+        const client_json = JSON.parse(client_data);
+        
+        const table = document.createElement('table');
+
+        const tr = document.createElement('tr');
+        for (let col in client_json[Object.keys(client_json)[0]]){
+            const th = document.createElement('th');
+            th.textContent = col;
+            tr.appendChild(th);
+        }
+        table.appendChild(tr)
+
+        for (let row in client_json){
+            const tr = document.createElement('tr');
+            for (let col in client_json[row]){
+                const td = document.createElement('td');
+                td.textContent = client_json[row][col];
+                tr.appendChild(td);
+            }
+            tr.addEventListener('click',() => window.location.href = "http://localhost:5000/termin?row=" + row)
+            table.appendChild(tr);
+        } 
+        document.body.appendChild(table);
+    </script>
+</body>
+</html>

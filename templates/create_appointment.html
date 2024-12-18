@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form method="POST" action="http://localhost:5000/termin_neu">
+        <p>Therapeut <input type="text" name="therapist"></p>
+        <p>Datum <input type="date" name="date"></p>
+        <p>Uhrzeit <input type="time" name="time"></p>
+        <p>Patient <input type="text" name="client_name"></p>
+        <p>Ort <select name="type" id="i">
+            <option value="clinic">Praxis</option>
+            <option value="home">Hausbesuch</option>
+        </select></p>
+
+    <p><input type="submit" value="Termin Hinzufügen"></p>
+    </form>
+</body>
+</html>

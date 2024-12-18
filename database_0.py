@@ -68,11 +68,24 @@ class Database():
         df.sort_values("Nachname").to_csv(self.CLIENT_FILE, index=False)
         return True
     
+    def create_new_appointment(self,appointment_data: dict) -> bool:
+        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        df = pd.concat([df, pd.DataFrame([appointment_data])], ignore_index=True)
+        df.to_csv(self.APPOINTMENTS_FILE, index=False)
+        return True
+    
     def delete_client(self) -> bool:
         df = pd.read_csv(self.CLIENT_FILE)
         if self.__client >= df.shape[0]:
             return False
         df.drop(self.__client).to_csv(self.CLIENT_FILE, index=False)
+        return True
+    
+    def delete_appointment(self) -> bool:
+        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        if self.__appointment >= df.shape[0]:
+            return False
+        df.drop(self.__appointment).to_csv(self.APPOINTMENTS_FILE, index=False)
         return True
     
     def update_client(self,updated_data: dict) -> bool:
@@ -83,6 +96,14 @@ class Database():
         df.to_csv(self.CLIENT_FILE, index=False)
         return True
     
+    def update_appointment(self,updated_data: dict) -> bool:
+        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        for col, val in enumerate(updated_data.values()):
+            if val:
+                df.iloc[self.__appointment,col] = val
+        df.to_csv(self.APPOINTMENTS_FILE, index=False)
+        return True
+    
     @property
     def get_clients_json(self) -> str:
         return pd.read_csv(self.CLIENT_FILE).to_json(orient="index")
@@ -91,6 +112,15 @@ class Database():
     def get_client_json(self) -> str:
         df = pd.read_csv(self.CLIENT_FILE)
         return df.iloc[self.__client,:].to_json(orient="index")
+    
+    @property
+    def get_appointments_json(self) -> str:
+        return pd.read_csv(self.APPOINTMENTS_FILE).to_json(orient="index")
+    
+    @property
+    def get_appointment_json(self) -> str:
+        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        return df.iloc[self.__appointment,:].to_json(orient="index")
 
     @property
     def get_all_clients(self) -> pd.DataFrame:
@@ -117,6 +147,13 @@ class Database():
     @property
     def get_client(self) -> int:
         return self.__client
+    
+    def set_appointment(self,id: int) -> None:
+        self.__appointment = id
+
+    @property
+    def get_appointment(self) -> int:
+        return self.__appointment
 
 if "__main__" == __name__:
     db = Database()
