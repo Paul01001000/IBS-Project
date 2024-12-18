@@ -14,10 +14,10 @@ class Database():
     APPOINTMENTS_FILE: str = ROOT + "appointments.csv"
 
     USER_HEADERS: List[str] = ["Username", "Password", "Firstname", "Lastname", "Date_of_Birth"]
-    CLIENT_HEADERS: List[str] = ["Nachname", "Vorname", "Telefonnummer", "Handynummer", "Adresse",
+    CLIENT_HEADERS: List[str] = ["Nachname", "Vorname", "Geburtstag", "Telefonnummer", "Handynummer", "Adresse",
                     "Arzt", "Pfleger", "Versicherung", "Versicherungsnummer",
                     "Geschlecht", "Rezept Details", "Beschwerde"]
-    APPOINTMENTS_HEADERS: List[str] = ["therapist","date","time","client_name","type"]
+    APPOINTMENTS_HEADERS: List[str] = ["Therapeut","Datum","Uhrzeit","Patient","Ort"]
     
     __user: str = "" #current user
     __client: int = None
@@ -43,7 +43,7 @@ class Database():
 
     def verify_user(self,username: str, password: str) -> bool:
         users = pd.read_csv(self.USER_FILE)
-        if ((users['Username'] == username) & (users['Password'] == password)).any():
+        if ((users['Username'] == username) & (users['Password'].map(str) == password)).any():
             self.__set_user(username)
             return True
         else: 
