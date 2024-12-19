@@ -4,8 +4,8 @@ from database_0 import Database
 
 import webbrowser
 
-db = Database()
-app = Flask(__name__)
+db = Database("./")
+app = Flask(__name__,template_folder = db.ROOT + "templates")
 
 @app.route("/")
 def root():
@@ -49,7 +49,8 @@ def clients():
     if not db.get_user:
         return redirect("login")
     client_data = db.get_clients_json
-    return render_template("clients.html",clients=client_data)
+    return render_template("clients.html",
+                           clients=client_data)
     
 @app.route("/patient", methods = ["GET"])
 def client():
@@ -58,7 +59,8 @@ def client():
     res = request.args
     db.set_client(int(res["row"]))
     this_client_data = db.get_client_json
-    return render_template("client_setting.html",client=this_client_data)
+    return render_template("client_setting.html",
+                           client=this_client_data)
 
 @app.route("/patienten_neu", methods = ["POST"])
 def new_client():
@@ -87,7 +89,8 @@ def appointments():
     if not db.get_user:
         return redirect("login")
     appointment_data = db.get_appointments_json
-    return render_template("appointments.html",appointments=appointment_data)
+    return render_template("appointments.html",
+                           appointments=appointment_data)
     
 @app.route("/termin", methods = ["GET"])
 def appointment():
@@ -96,7 +99,8 @@ def appointment():
     res = request.args
     db.set_appointment(int(res["row"]))
     this_appointment_data = db.get_appointment_json
-    return render_template("appointment_setting.html",appointment=this_appointment_data)
+    return render_template("appointment_setting.html",
+                           appointment=this_appointment_data)
 
 @app.route("/termin_neu", methods = ["POST"])
 def new_appointment():

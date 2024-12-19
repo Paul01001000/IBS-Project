@@ -1,18 +1,11 @@
 #database_0
 import pandas as pd
 import os
-import json
 
 from typing import List
 
 class Database():
-    # File paths
-    ROOT: str = "./"
-    USER_FILE: str = ROOT + "users.csv"
-    CLIENT_FILE: str = ROOT + "client_database.csv"
-    THERAPISTS_FILE: str = "therapists.csv"
-    APPOINTMENTS_FILE: str = ROOT + "appointments.csv"
-
+    
     USER_HEADERS: List[str] = ["Username", "Password", "Firstname", "Lastname", "Date_of_Birth"]
     CLIENT_HEADERS: List[str] = ["Nachname", "Vorname", "Geburtstag", "Telefonnummer", "Handynummer", "Adresse",
                     "Arzt", "Pfleger", "Versicherung", "Versicherungsnummer",
@@ -26,7 +19,13 @@ class Database():
     __salt: bytes = b'm\xde\x84\xb2\x17\xa7\xeb\x16\xd4\x8a\x15\xad*\xb1Pt' #needed later for cryptpandas
 
     
-    def __init__(self):
+    def __init__(self,root_path: str):
+        # File paths
+        self.ROOT: str = root_path
+        self.USER_FILE: str = self.ROOT + "users.csv"
+        self.CLIENT_FILE: str = self.ROOT + "client_database.csv"
+        self.THERAPISTS_FILE: str = self.ROOT + "therapists.csv"
+        self.APPOINTMENTS_FILE: str = self.ROOT + "appointments.csv"
         # Initialize user and client and appointments database files if they don't exist
         if not os.path.exists(self.USER_FILE):
             pd.DataFrame(columns=self.USER_HEADERS).to_csv(self.USER_FILE, index=False)
