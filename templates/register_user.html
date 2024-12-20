@@ -7,25 +7,26 @@
 </head>
 <body>
     <form method="POST" action="http://localhost:5000/patienten_neu">
-    <p>Nachname <input type="text" name="Nachname"></p>
-    <p>Vorname <input type="text" name="Vorname"></p>
-    <p>Geburtstag <input type="date" name="Geburtstag"></p>
-    <p>Telefonnummer <input type="tel" name="Telefonnummer"></p>
-    <p>Handynummer <input type="tel" name="Handynummer"></p>
-    <p>Arzt <input type="text" name="Arzt"></p>
-    <p>Pfleger <input type="text" name="Pfleger"></p>
-    <p>Versicherung <input type="text" name="Versicherung"></p>
-    <p>Versicherungsnummer <input type="number" name="Versicherungsnummer"></p>
-    <p>Geschlecht <select name="Geschlecht" id="i">
+    <table>
+    <tr><td>Nachname</td><td> <input type="text" name="Nachname"></td></tr>
+    <tr><td>Vorname</td><td> <input type="text" name="Vorname"></td></tr>
+    <tr><td>Geburtstag</td><td> <input type="date" name="Geburtstag"></td></tr>
+    <tr><td>Telefonnummer</td><td> <input type="tel" name="Telefonnummer"></td></tr>
+    <tr><td>Handynummer</td><td> <input type="tel" name="Handynummer"></td></tr>
+    <tr><td>Arzt </td><td><input type="text" name="Arzt"></td></tr>
+    <tr><td>Pfleger</td><td> <input type="text" name="Pfleger"></td></tr>
+    <tr><td>Versicherung</td><td> <input type="text" name="Versicherung"></td></tr>
+    <tr><td>Versicherungsnummer</td><td> <input type="number" name="Versicherungsnummer"></td></tr>
+    <tr><td>Geschlecht</td><td> <select name="Geschlecht" id="i">
         <option value="M">Männlich</option>
         <option value="W">Weiblich</option>
         <option value="D">Divers</option>
-    </select></p>
-    <p>Rezept <input type="text" name="Rezept"></p>
-    <p>Details <input type="text" name="Details"></p>
-    <p>Beschwerde <input type="text" name="Beschwerde"></p>
+    </select></td></tr>
+    <tr><td>Rezept</td><td> <input type="text" name="Rezept"></td></tr>
+    <tr><td>Details</td><td> <input type="text" name="Details"></td></tr>
+    <tr><td>Beschwerde</td><td> <input type="text" name="Beschwerde"></td></tr>
 
-
+    </table>
     <p><input type="submit" value="Patient Hinzufügen"></p>
     </form>
 </body>

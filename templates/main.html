@@ -3,18 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main</title>
+    <title>Start</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .welcome-section {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .welcome-section span {
+            font-weight: bold;
+        }
+        .sidebar {
+            width: 300px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        .button {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #f4a261;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #e76f51;
+        }
+    </style>
 </head>
 <body>
-    <p>Hallo {{name}}</p>
-    <form method="GET" action="http://localhost:5000/patienten">
-        <p><input type="submit" value="Patienten"></p>
-    </form>
-    <form method="GET" action="http://localhost:5000/termine">
-        <p><input type="submit" value="Termine"></p>
-    </form>
-    <form method="GET" action="http://localhost:5000/login">
-        <p><input type="submit" value="Log Out"></p>
-    </form>
+    <div class="container">
+        <div class="welcome-section">
+        <p>Hallo {{name}}</p>
+        </div>
+        <div class="sidebar">
+        <form method="GET" action="http://localhost:5000/patienten">
+            <p><input type="submit" value="Patienten" class="button"></p>
+        </form>
+        <form method="GET" action="http://localhost:5000/termine">
+            <p><input type="submit" value="Termine" class="button"></p>
+        </form>
+        <form method="GET" action="http://localhost:5000/login">
+            <p><input type="submit" value="Ausloggen" class="button"></p>
+        </form>
+        </div>
+    </div>
 </body>
 </html>
