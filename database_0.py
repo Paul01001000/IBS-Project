@@ -3,6 +3,7 @@ import pandas as pd
 import os
 
 from typing import List
+from datetime import datetime
 
 class Database():
     
@@ -15,6 +16,8 @@ class Database():
     __user: str = "" #current user
     __client: int = None
     __appointment: int = None
+    __date: str = str(datetime.now()).split(' ')[0]
+    __therapist: str = ""
     __key: str = "SecureKey" 
     __salt: bytes = b'm\xde\x84\xb2\x17\xa7\xeb\x16\xd4\x8a\x15\xad*\xb1Pt' #needed later for cryptpandas
 
@@ -24,7 +27,6 @@ class Database():
         self.ROOT: str = root_path
         self.USER_FILE: str = self.ROOT + "users.csv"
         self.CLIENT_FILE: str = self.ROOT + "client_database.csv"
-        self.THERAPISTS_FILE: str = self.ROOT + "therapists.csv"
         self.APPOINTMENTS_FILE: str = self.ROOT + "appointments.csv"
         # Initialize user and client and appointments database files if they don't exist
         if not os.path.exists(self.USER_FILE):
@@ -32,9 +34,6 @@ class Database():
 
         if not os.path.exists(self.CLIENT_FILE):
             pd.DataFrame(columns=self.CLIENT_HEADERS).to_csv(self.CLIENT_FILE, index=False)
-        
-        if not os.path.exists(self.THERAPISTS_FILE):
-            pd.Series().to_csv(self.THERAPISTS_FILE,index=False)
 
         if not os.path.exists(self.APPOINTMENTS_FILE):
             pd.DataFrame(columns=self.APPOINTMENTS_HEADERS).to_csv(self.APPOINTMENTS_FILE, index=False)
@@ -113,8 +112,13 @@ class Database():
         return df.iloc[self.__client,:].to_json(orient="index")
     
     @property
-    def get_appointments_json(self) -> str:
+    def get_all_appointments_json(self) -> str:
         return pd.read_csv(self.APPOINTMENTS_FILE).to_json(orient="index")
+    
+    @property
+    def get_appointments_json(self) -> str:
+        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        return df.loc[(df["Therapeut"] == self.__therapist) & (df["Datum"] == self.__date)].to_json(orient="index")
     
     @property
     def get_appointment_json(self) -> str:
@@ -126,12 +130,9 @@ class Database():
         return pd.read_csv(self.CLIENT_FILE)
     
     @property
-    def get_all_therapists(self) -> pd.Series:
-        return pd.read_csv(self.THERAPISTS_FILE)
-    
-    def save_therapists(self,therapists: List[str]) -> bool:
-        pd.Series(therapists).to_csv(self.THERAPISTS_FILE,index=False)
-        return True
+    def get_all_therapists(self) -> list:
+        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        return list(df["Therapeut"].unique())
     
     def __set_user(self,username:str) -> None:
         self.__user = username
@@ -153,6 +154,22 @@ class Database():
     @property
     def get_appointment(self) -> int:
         return self.__appointment
+    
+    def set_date(self, date: str) -> None:
+        self.__date = date
+
+    @property
+    def get_date(self) -> str:
+        return self.__date
+    
+    def set_therapist(self,therapist: str) -> None:
+        self.__therapist = therapist
+
+    @property
+    def get_therapist(self) -> str:
+        return self.__therapist
+    
+
 
 if "__main__" == __name__:
     db = Database()

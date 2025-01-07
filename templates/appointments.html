@@ -15,8 +15,28 @@
     <form method="POST" action="http://localhost:5000/termin_neu">
         <p><input type="submit" value="Hinzufügen"></p>
     </form>
+    <form method="POST" action="http://localhost:5000/date_and_therapist">
+        <table>
+            <tr><td>Therapeut</td>
+                <td> 
+                    <input type="text" name="Therapeut" list="therapists">
+                    <datalist id="therapists"></datalist>
+                </td>
+            </tr>
+            <tr><td>Datum</td><td> <input type="date" name="Datum"></td></tr>
+        </table>
+        <input type="submit" value="Suchen">
+    </form>
 
     <script>
+        const therapists = {{therapist_list|tojson}};
+        const inp = document.getElementById("therapists");
+        for (const cur in therapists){
+            const opt = document.createElement("option");
+            opt.value = therapists[cur];
+            inp.appendChild(opt);
+        }
+
         const client_data = {{appointments|tojson}};
         const client_json = JSON.parse(client_data);
         

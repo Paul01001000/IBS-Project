@@ -6,17 +6,36 @@
     <title>Register</title>
 </head>
 <body>
+    <form method="GET" action="http://localhost:5000/termine">
+        <p><input type="submit" value="Zurück"></p>
+    </form>
     <form method="POST" action="http://localhost:5000/termin_neu">
-        <p>Therapeut <input type="text" name="Therapeut"></p>
-        <p>Datum <input type="date" name="Datum"></p>
-        <p>Uhrzeit <input type="time" name="Uhrzeit"></p>
-        <p>Patient <input type="text" name="Patient"></p>
-        <p>Ort <select name="Ort" id="i">
-            <option value="Praxis">Praxis</option>
-            <option value="Hausbesuch">Hausbesuch</option>
-        </select></p>
+        <table>
+            <tr><td>Therapeut</td>
+                <td> 
+                    <input type="text" name="Therapeut" list="therapists">
+                    <datalist id="therapists"></datalist>
+                </td>
+            </tr>
+            <tr><td>Patient</td><td> <input type="text" name="Patient"></td></tr>
+            <tr><td>Datum</td><td> <input type="date" name="Datum"></td></tr>
+            <tr><td>Uhrzeit</td><td> <input type="time" name="Uhrzeit"></td></tr>
+            <tr><td>Ort</td><td> <select name="Ort" id="i">
+                <option value="Praxis">Praxis</option>
+                <option value="Hausbesuch">Hausbesuch</option>
+            </select></td></tr>
+        </table>
 
     <p><input type="submit" value="Termin Hinzufügen"></p>
     </form>
+    <script>
+        const therapists = {{therapist_list|tojson}};
+        const inp = document.getElementById("therapists");
+        for (const cur in therapists){
+            const opt = document.createElement("option");
+            opt.value = therapists[cur];
+            inp.appendChild(opt);
+        }
+    </script>
 </body>
 </html>

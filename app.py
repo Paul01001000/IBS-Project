@@ -4,8 +4,9 @@ from database_0 import Database
 
 import webbrowser
 
-db = Database("./")
-app = Flask(__name__,template_folder = db.ROOT + "templates")
+ROOT = "./"
+db = Database(ROOT)
+app = Flask(__name__,template_folder = ROOT + "templates")
 
 @app.route("/")
 def root():
@@ -90,7 +91,8 @@ def appointments():
         return redirect("login")
     appointment_data = db.get_appointments_json
     return render_template("appointments.html",
-                           appointments=appointment_data)
+                           appointments=appointment_data,
+                           therapist_list=db.get_all_therapists)
     
 @app.route("/termin", methods = ["GET"])
 def appointment():
@@ -100,7 +102,8 @@ def appointment():
     db.set_appointment(int(res["row"]))
     this_appointment_data = db.get_appointment_json
     return render_template("appointment_setting.html",
-                           appointment=this_appointment_data)
+                           appointment=this_appointment_data,
+                           therapist_list=db.get_all_therapists)
 
 @app.route("/termin_neu", methods = ["POST"])
 def new_appointment():
@@ -108,7 +111,7 @@ def new_appointment():
         return redirect("login")
     res = request.form
     if not res:
-        return render_template("create_appointment.html")
+        return render_template("create_appointment.html",therapist_list=db.get_all_therapists)
     db.create_new_appointment(res)
     return redirect("termine")
 
@@ -123,6 +126,13 @@ def update_appointment():
     res = request.form
     db.update_appointment(res)
     return redirect("termin?row=" + str(db.get_appointment))
+
+@app.route("/date_and_therapist", methods = ["POST"])
+def set_values():
+    res = request.form
+    db.set_date(res["Datum"])
+    db.set_therapist(res["Therapeut"])
+    return redirect("termine")
 
 
 
