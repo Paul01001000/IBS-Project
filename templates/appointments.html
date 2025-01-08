@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #calender, #calender th, #calender td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            }
+        .Praxis {
+            background-color: blue;
+        }
+        .Hausbesuch {
+            background-color: red;
+        }
+    </style>
     <title>Document</title>
 </head>
 <body>
@@ -27,6 +39,10 @@
         </table>
         <input type="submit" value="Suchen">
     </form>
+    <br>
+    <table id="calender">
+        <tr><th>Datum</th><th><div id="Datum"></div></th></tr>
+    </table>
 
     <script>
         const therapists = {{therapist_list|tojson}};
@@ -37,9 +53,50 @@
             inp.appendChild(opt);
         }
 
+        const calender = document.getElementById('calender');
+
+        const times = [
+                        "08:00", "08:30",
+                        "09:00", "09:30",
+                        "10:00", "10:30",
+                        "11:00", "11:30",
+                        "12:00", "12:30",
+                        "13:00", "13:30",
+                        "14:00", "14:30",
+                        "15:00", "15:30",
+                        "16:00", "16:30",
+                        "17:00", "17:30",
+                        "18:00"
+                    ];
+        
+        for (const i in times){
+            const row = document.createElement('tr');
+            const time_slot = document.createElement('td');
+            const appointment_slot = document.createElement('td');
+            const appoint = document.createElement('div');
+
+            time_slot.innerText = times[i];
+            appoint.id = times[i];
+
+            row.appendChild(time_slot);
+            appointment_slot.appendChild(appoint);
+            row.appendChild(appointment_slot);
+            calender.appendChild(row);
+        }
+
         const client_data = {{appointments|tojson}};
         const client_json = JSON.parse(client_data);
+
+        for (let row in client_json){
+            const cur_json = client_json[row];
+            const time = cur_json['Uhrzeit'];
+            const appoint = document.getElementById(time);
+            appoint.innerText = cur_json['Patient'];
+            appoint.className = cur_json['Ort'];
+            appoint.addEventListener('click',() => window.location.href = "http://localhost:5000/termin?row=" + row)
+        }
         
+        /*
         const table = document.createElement('table');
 
         const tr = document.createElement('tr');
@@ -61,6 +118,7 @@
             table.appendChild(tr);
         } 
         document.body.appendChild(table);
+        */
     </script>
 </body>
 </html>
