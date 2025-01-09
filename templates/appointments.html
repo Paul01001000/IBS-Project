@@ -41,6 +41,7 @@
     </form>
     <br>
     <table id="calender">
+        <tr><th>Therapeut</th><th><div id="Therapeut"></div></th></tr>
         <tr><th>Datum</th><th><div id="Datum"></div></th></tr>
     </table>
 
@@ -95,6 +96,10 @@
             appoint.className = cur_json['Ort'];
             appoint.addEventListener('click',() => window.location.href = "http://localhost:5000/termin?row=" + row)
         }
+
+        const header = client_json[Object.keys(client_json)[0]]
+        document.getElementById("Datum").innerText = header["Datum"];
+        document.getElementById("Therapeut").innerText = header["Therapeut"];
         
         /*
         const table = document.createElement('table');
