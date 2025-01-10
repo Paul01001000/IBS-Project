@@ -37,7 +37,10 @@ class Database():
 
         if not os.path.exists(self.APPOINTMENTS_FILE):
             pd.DataFrame(columns=self.APPOINTMENTS_HEADERS).to_csv(self.APPOINTMENTS_FILE, index=False)
-
+        try:
+            self.__therapist = pd.read_csv(self.APPOINTMENTS_FILE)["Therapeut"].iloc[0]
+        except IndexError:
+            pass
 
     def verify_user(self,username: str, password: str) -> bool:
         users = pd.read_csv(self.USER_FILE)

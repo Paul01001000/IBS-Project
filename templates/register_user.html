@@ -4,8 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        
+        form {
+            text-align: center;
+            margin: 20px auto;
+            width: 50%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        td {
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+        
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        input[type="submit"] {
+            background-color: #ff8c00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #e67e00;
+        }
+        
+        #ter, #bac {
+            display: inline-block;
+            width: auto;
+            margin: 0 10px;
+        }
+            </style>
 </head>
 <body>
+    <form method="GET" action="http://localhost:5000/patienten">
+        <p><input type="submit" value="Zurück"></p>
+    </form>
     <form method="POST" action="http://localhost:5000/patienten_neu">
     <table>
     <tr><td>Nachname</td><td> <input type="text" name="Nachname"></td></tr>
