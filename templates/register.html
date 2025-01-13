@@ -1,19 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <style>
+        body {
+            background-color: rgba(248, 248, 248, 1);
+        }
+
+        .form_box {
+            width: 500px;
+            height: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0px 3px 24px lightgrey;
+            padding-top: 60px;
+            padding-left: 60px;
+            padding-right: 60px;
+
+        }
+
+        .input-field {
+            display: flex;
+            justify-content: space-evenly;
+            /* Evenly space the inputs */
+            gap: 60px;
+            /* Add space between the inputs */
+            margin-bottom: 25px;
+            /* Space between rows */
+            padding-top: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #a5a3a3;
+            border-radius: 5px;
+            background-color: rgba(248, 248, 248, 1);
+        }
+
+        .btn {
+            display: flex;
+            text-align: center;
+
+        }
+
+        #reg {
+            background-color: rgba(242, 121, 34, 0.5);
+            border: 1.5px solid rgba(242, 121, 34, 0.5);
+            text-align: center;
+            width: 200px;
+            height: 45px;
+            display: flex;
+            border-radius: 5px;
+            position: absolute;
+            margin-top: 25px;
+            transform: translate(145%, 0);
+        }
+
+        #reg:hover {
+            background-color: rgba(242, 121, 34, 0.8);
+        }
+
+        #log {
+            background-color: rgba(242, 121, 34, 0.5);
+            border: 1.5px solid rgba(242, 121, 34, 0.5);
+            text-align: center;
+            width: 200px;
+            height: 45px;
+            display: flex;
+            border-radius: 5px;
+            position: absolute;
+            margin-top: 25px;
+            transform: translate(5%, 0);
+        }
+
+        #log:hover {
+            background-color: rgba(242, 121, 34, 0.8);
+        }
+    </style>
 </head>
+
 <body>
-    <form method="POST" action="http://localhost:5000/register">
-    <p>Benutzername <input type="text" name="Username"></p>
-    <p>Passwort <input type="password" name="Password"></p>
-    <p>Passwort <input type="password" name="Password_rep"></p>
-    <p>Vorname <input type="text" name="Firstname"></p>
-    <p>Nachname <input type="text" name="Lastname"></p>
-    <p>Geburtsdatum <input type="date" name="Date_of_Birth"></p>
-    <p><input type="submit" value="Register"></p>
-    </form>
+    <div class="form_box">
+
+        <form method="POST" action="http://localhost:5000/register">
+            <div class="input-field">
+                <input type="text" placeholder="Nachname" name="Lastname"
+                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <input type="text" placeholder="Vorname" name="Firstname"
+                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            </div>
+
+            <div class="input-field">
+                <input type="text" placeholder="Benutzername" name="Username"
+                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <input type="date" placeholder="Geburtsdatum" name="Date_of_Birth"
+                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            </div>
+
+            <div class="input-field">
+                <input type="password" placeholder="Passwort" name="Password" id="dob"
+                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <input type="password" placeholder="Passwort wiederholen" name="Password_rep"
+                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            </div>
+
+            <div class="btn">
+                <input type="submit" value="Login" id="log"
+                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <input type="submit" value="Registrieren" id="reg"
+                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            </div>
+        </form>
+    </div>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
       height: 100vh;
       background-color: #ffffff;
     }
+
     .container {
       text-align: center;
       position: relative;
@@ -23,9 +25,11 @@
 
     /* Triangle shape */
     .triangle {
+      display: none;
       width: 0;
       height: 0;
-      border-left: 400px solid #8b3e3e; /* Dark red color */
+      border-left: 400px solid #ccc;
+      /* Dark red color */
       border-bottom: 150px solid transparent;
       position: absolute;
       top: 0;
@@ -53,16 +57,19 @@
 
     .input-box {
       display: block;
-      width: 100%;
+      width: 92%;
       padding: 15px;
       margin-bottom: 10px;
       border: none;
       border-radius: 10px;
-      background-color: #aedbb7; /* Greenish color */
+      background-color: #ccc;
+      /* Greenish color */
       color: #111111;
       font-size: 16px;
-      transition: background-color 0.3s ease; /* Smooth transition */
+      transition: background-color 0.3s ease;
+      /* Smooth transition */
     }
+
     .input-box::placeholder {
       color: #111111;
     }
@@ -70,8 +77,10 @@
     /* Hover and focus effect for input fields */
     .input-box:hover,
     .input-box:focus {
-      background-color: #aedbb7; /* Light green color on hover and focus */
-      outline: none; /* Remove default outline on focus */
+      background-color: #ddd;
+      /* Light green color on hover and focus */
+      outline: none;
+      /* Remove default outline on focus */
     }
 
     .forgot-password {
@@ -91,12 +100,14 @@
     .forgot-password a:hover {
       text-decoration: underline;
     }
+
     .login-btn {
       width: 100%;
       padding: 15px;
       border: none;
       border-radius: 10px;
-      background-color: #5f432a; /* Dark brown color */
+      background-color: #ff7f00;
+      /* Dark brown color */
       color: #fff;
       font-size: 16px;
       font-weight: bold;
@@ -106,7 +117,8 @@
 
     /* Hover effect for login button */
     .login-btn:hover {
-      background-color: #98c4a3; /* Light green color on hover */
+      background-color: #ddd;
+      /* Light green color on hover */
     }
 
     .signup {
@@ -121,33 +133,16 @@
       font-weight: bold;
       transition: color 0.3s ease;
     }
-/* Hover effect for signup link */
-.signup a:hover {
-      color: #98c4a3; /* Light green color on hover */
-    }
 
-    /* Home link */
-    .home-link {
-      position: absolute;
-      top: 10px;
-      right: 10px; /* Positioning to the top-right */
-      font-size: 14px;
-      color: #000;
-    }
-
-    .home-link a {
-      color: #000;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    /* Hover effect for home link */
-    .home-link a:hover {
-      color: #98c4a3; /* Light green color on hover */
+    /* Hover effect for signup link */
+    .signup a:hover {
+      color: #98c4a3;
+      /* Light green color on hover */
     }
   </style>
 
 </head>
+
 <body>
   <div class="container">
     <div class="triangle"></div>
@@ -155,22 +150,19 @@
       <h2>Theratime</h2>
       <p>Bitte melden Sie sich hier mit Ihren Daten an</p>
       <form method="POST" action="http://localhost:5000/main">
-      <input type="text" name="name" class="input-box" placeholder="Benutzername">
-      <input type="password" name="password" class="input-box" placeholder="Passwort">
-      <div class="forgot-password">
-        <a href="#">Passwort vergessen?</a>
-      </div>
-      <input type="submit" class="login-btn" value="LOGIN">
+        <input type="text" name="name" class="input-box" placeholder="Benutzername">
+        <input type="password" name="password" class="input-box" placeholder="Passwort">
+        <input type="submit" class="login-btn" value="LOGIN">
       </form>
       <form method="POST" action="http://localhost:5000/register">
         <div class="signup">
           Neuer Nutzer? <input type="submit" value="Registrieren">
         </div>
       </form>
-      
+
     </div>
   </div>
-  
+
 </body>
 
 </html>
