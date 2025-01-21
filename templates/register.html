@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Registrieren</title>
     <style>
         body {
             background-color: rgba(248, 248, 248, 1);
@@ -65,21 +65,27 @@
             transform: translate(145%, 0);
         }
 
+        #reg div {
+            text-align: center;
+
+        }
+
         #reg:hover {
             background-color: rgba(242, 121, 34, 0.8);
         }
 
         #log {
             background-color: rgba(242, 121, 34, 0.5);
+            padding-left: 70px;
+            padding-top: 9px;
             border: 1.5px solid rgba(242, 121, 34, 0.5);
-            text-align: center;
-            width: 200px;
-            height: 45px;
+            width: 125px;
+            height: 35px;
             display: flex;
             border-radius: 5px;
-            position: absolute;
             margin-top: 25px;
-            transform: translate(5%, 0);
+            margin-left: 9px;
+            font-size: 16px;
         }
 
         #log:hover {
@@ -114,8 +120,7 @@
             </div>
 
             <div class="btn">
-                <input type="submit" value="Login" id="log"
-                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <a href="http://localhost:5000/login" id="log" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Zurück</a>
                 <input type="submit" value="Registrieren" id="reg"
                     style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
             </div>
