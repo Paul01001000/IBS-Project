@@ -4,9 +4,9 @@ from database_0 import Database
 
 import webbrowser
 
-ROOT = "./"
+ROOT = "./Database/"
 db = Database(ROOT)
-app = Flask(__name__,template_folder = ROOT + "templates")
+app = Flask(__name__,template_folder = "./templates")
 
 @app.route("/")
 def root():

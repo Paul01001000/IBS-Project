@@ -1,5 +1,6 @@
 #database_0
 import pandas as pd
+import cryptpandas as crp
 import os
 
 from typing import List
@@ -18,16 +19,17 @@ class Database():
     __appointment: int = None
     __date: str = str(datetime.now()).split(' ')[0]
     __therapist: str = ""
-    __key: str = "SecureKey" 
-    __salt: bytes = b'm\xde\x84\xb2\x17\xa7\xeb\x16\xd4\x8a\x15\xad*\xb1Pt' #needed later for cryptpandas
-
+    __key: str = "" 
+    __salt: bytes = b'm\xde\x84\xb2\x17\xa7\xeb\x16\xd4\x8a\x15\xad*\xb1Pt' #needed for cryptpandas
     
     def __init__(self,root_path: str):
+
         # File paths
         self.ROOT: str = root_path
         self.USER_FILE: str = self.ROOT + "users.csv"
         self.CLIENT_FILE: str = self.ROOT + "client_database.csv"
         self.APPOINTMENTS_FILE: str = self.ROOT + "appointments.csv"
+
         # Initialize user and client and appointments database files if they don't exist
         if not os.path.exists(self.USER_FILE):
             pd.DataFrame(columns=self.USER_HEADERS).to_csv(self.USER_FILE, index=False)
@@ -41,6 +43,9 @@ class Database():
             self.__therapist = pd.read_csv(self.APPOINTMENTS_FILE)["Therapeut"].iloc[0]
         except IndexError:
             pass
+
+        if not self.__salt:
+            self.__salt = crp.make_salt(16)
 
     def verify_user(self,username: str, password: str) -> bool:
         users = pd.read_csv(self.USER_FILE)
