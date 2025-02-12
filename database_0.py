@@ -20,6 +20,7 @@ class Database():
     __date: str = str(datetime.now()).split(' ')[0]
     __therapist: str = ""
     __key: str = ""  #to be replaced with secure key
+    #__salt: bytes = crp.make_salt()
     __salt: bytes = b'm\xde\x84\xb2\x17\xa7\xeb\x16\xd4\x8a\x15\xad*\xb1Pt' #needed for cryptpandas
     
     def __init__(self,root_path: str):
@@ -44,9 +45,6 @@ class Database():
             self.__therapist = crp.read_encrypted(self.APPOINTMENTS_FILE,self.__key,self.__salt)["Therapeut"].iloc[0]
         except IndexError:
             pass
-
-        if not self.__salt:
-            self.__salt = crp.make_salt(16)
 
     def verify_user(self,username: str, password: str) -> bool:
         users = crp.read_encrypted(self.USER_FILE,self.__key,self.__salt)
