@@ -19,28 +19,29 @@ class Database():
     __appointment: int = None
     __date: str = str(datetime.now()).split(' ')[0]
     __therapist: str = ""
-    __key: str = "" 
+    __key: str = ""  #to be replaced with secure key
     __salt: bytes = b'm\xde\x84\xb2\x17\xa7\xeb\x16\xd4\x8a\x15\xad*\xb1Pt' #needed for cryptpandas
     
     def __init__(self,root_path: str):
 
         # File paths
         self.ROOT: str = root_path
-        self.USER_FILE: str = self.ROOT + "users.csv"
-        self.CLIENT_FILE: str = self.ROOT + "client_database.csv"
-        self.APPOINTMENTS_FILE: str = self.ROOT + "appointments.csv"
+        self.USER_FILE: str = self.ROOT + "users.crypt"
+        self.CLIENT_FILE: str = self.ROOT + "client_database.crypt"
+        self.APPOINTMENTS_FILE: str = self.ROOT + "appointments.crypt"
 
         # Initialize user and client and appointments database files if they don't exist
         if not os.path.exists(self.USER_FILE):
-            pd.DataFrame(columns=self.USER_HEADERS).to_csv(self.USER_FILE, index=False)
+            crp.to_encrypted(pd.DataFrame(columns=self.USER_HEADERS),self.USER_FILE,self.__key,self.__salt)
 
         if not os.path.exists(self.CLIENT_FILE):
-            pd.DataFrame(columns=self.CLIENT_HEADERS).to_csv(self.CLIENT_FILE, index=False)
+            crp.to_encrypted(pd.DataFrame(columns=self.CLIENT_HEADERS),self.CLIENT_FILE,self.__key,self.__salt)
 
         if not os.path.exists(self.APPOINTMENTS_FILE):
-            pd.DataFrame(columns=self.APPOINTMENTS_HEADERS).to_csv(self.APPOINTMENTS_FILE, index=False)
+            crp.to_encrypted(pd.DataFrame(columns=self.APPOINTMENTS_HEADERS),self.APPOINTMENTS_FILE,self.__key,self.__salt)
+
         try:
-            self.__therapist = pd.read_csv(self.APPOINTMENTS_FILE)["Therapeut"].iloc[0]
+            self.__therapist = crp.read_encrypted(self.APPOINTMENTS_FILE,self.__key,self.__salt)["Therapeut"].iloc[0]
         except IndexError:
             pass
 
@@ -48,7 +49,7 @@ class Database():
             self.__salt = crp.make_salt(16)
 
     def verify_user(self,username: str, password: str) -> bool:
-        users = pd.read_csv(self.USER_FILE)
+        users = crp.read_encrypted(self.USER_FILE,self.__key,self.__salt)
         if ((users['Username'] == username) & (users['Password'].map(str) == password)).any():
             self.__set_user(username)
             return True
@@ -60,86 +61,86 @@ class Database():
         self.__set_user("")
     
     def create_new_user(self,user_data: dict) -> bool:
-        users = pd.read_csv(self.USER_FILE)
+        users = crp.read_encrypted(self.USER_FILE,self.__key,self.__salt)
         if user_data["Username"] in users['Username'].values:
             return False
         else:
             users = pd.concat([users, pd.DataFrame([user_data])], ignore_index=True)
-            users.to_csv(self.USER_FILE, index=False)
+            crp.to_encrypted(users,self.USER_FILE,self.__key,self.__salt)
             return True
     
     def create_new_client(self,client_data: dict) -> bool:
-        df = pd.read_csv(self.CLIENT_FILE)
+        df = crp.read_encrypted(self.CLIENT_FILE,self.__key,self.__salt)
         df = pd.concat([df, pd.DataFrame([client_data])], ignore_index=True)
-        df.sort_values("Nachname").to_csv(self.CLIENT_FILE, index=False)
+        crp.to_encrypted(df.sort_values("Nachname"),self.CLIENT_FILE,self.__key,self.__salt)
         return True
     
     def create_new_appointment(self,appointment_data: dict) -> bool:
-        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        df = crp.read_encrypted(self.APPOINTMENTS_FILE,self.__key,self.__salt)
         df = pd.concat([df, pd.DataFrame([appointment_data])], ignore_index=True)
-        df.to_csv(self.APPOINTMENTS_FILE, index=False)
+        crp.to_encrypted(df,self.APPOINTMENTS_FILE,self.__key,self.__salt)
         return True
     
     def delete_client(self) -> bool:
-        df = pd.read_csv(self.CLIENT_FILE)
+        df = crp.read_encrypted(self.CLIENT_FILE,self.__key,self.__salt)
         if self.__client >= df.shape[0]:
             return False
-        df.drop(self.__client).to_csv(self.CLIENT_FILE, index=False)
+        crp.to_encrypted(df.drop(self.__client),self.CLIENT_FILE,self.__key,self.__salt)
         return True
     
     def delete_appointment(self) -> bool:
-        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        df = crp.read_encrypted(self.APPOINTMENTS_FILE,self.__key,self.__salt)
         if self.__appointment >= df.shape[0]:
             return False
-        df.drop(self.__appointment).to_csv(self.APPOINTMENTS_FILE, index=False)
+        crp.to_encrypted(df.drop(self.__appointment),self.APPOINTMENTS_FILE,self.__key,self.__salt)
         return True
     
     def update_client(self,updated_data: dict) -> bool:
-        df = pd.read_csv(self.CLIENT_FILE)
+        df = crp.read_encrypted(self.CLIENT_FILE,self.__key,self.__salt)
         for col, val in enumerate(updated_data.values()):
             if val:
                 df.iloc[self.__client,col] = val
-        df.to_csv(self.CLIENT_FILE, index=False)
+        crp.to_encrypted(df,self.CLIENT_FILE,self.__key,self.__salt)
         return True
     
     def update_appointment(self,updated_data: dict) -> bool:
-        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        df = crp.read_encrypted(self.APPOINTMENTS_FILE,self.__key,self.__salt)
         for col, val in enumerate(updated_data.values()):
             if val:
                 df.iloc[self.__appointment,col] = val
-        df.to_csv(self.APPOINTMENTS_FILE, index=False)
+        crp.to_encrypted(df,self.APPOINTMENTS_FILE,self.__key,self.__salt)
         return True
     
     @property
     def get_clients_json(self) -> str:
-        return pd.read_csv(self.CLIENT_FILE).to_json(orient="index")
+        return crp.read_encrypted(self.CLIENT_FILE,self.__key,self.__salt).to_json(orient="index")
     
     @property
     def get_client_json(self) -> str:
-        df = pd.read_csv(self.CLIENT_FILE)
+        df = crp.read_encrypted(self.CLIENT_FILE,self.__key,self.__salt)
         return df.iloc[self.__client,:].to_json(orient="index")
     
     @property
     def get_all_appointments_json(self) -> str:
-        return pd.read_csv(self.APPOINTMENTS_FILE).to_json(orient="index")
+        return crp.read_encrypted(self.APPOINTMENTS_FILE,self.__key,self.__salt).to_json(orient="index")
     
     @property
     def get_appointments_json(self) -> str:
-        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        df = crp.read_encrypted(self.APPOINTMENTS_FILE,self.__key,self.__salt)
         return df.loc[(df["Therapeut"] == self.__therapist) & (df["Datum"] == self.__date)].to_json(orient="index")
     
     @property
     def get_appointment_json(self) -> str:
-        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        df = crp.read_encrypted(self.APPOINTMENTS_FILE,self.__key,self.__salt)
         return df.iloc[self.__appointment,:].to_json(orient="index")
 
     @property
     def get_all_clients(self) -> pd.DataFrame:
-        return pd.read_csv(self.CLIENT_FILE)
+        return crp.read_encrypted(self.CLIENT_FILE,self.__key,self.__salt)
     
     @property
     def get_all_therapists(self) -> list:
-        df = pd.read_csv(self.APPOINTMENTS_FILE)
+        df = crp.read_encrypted(self.APPOINTMENTS_FILE,self.__key,self.__salt)
         return list(df["Therapeut"].unique())
     
     def __set_user(self,username:str) -> None:
